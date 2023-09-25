@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+	  
+
+
+<!--      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3-->
+<head>
+<title>Kaloripäiväkirja</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<h3>
+	        	<input class="btn btn-success float-right ml-2" type="submit" onclick="document.getElementById('calendar-form').submit();"  value="Tallenna" />
+	       		<input class="btn btn-success float-right ml-1" type="button" onclick="history.go(-1)" value="Peruuta" />
+		</h3>
+
+	    <form th:id="calendar-form" action="#" th:action="@{/save-old-food-item/{id}(id=${food_item.id})}" method="post" th:object="${food_item}">
+	    	 <div class="form-group">
+		    	<label for="nimi">Nimi</label>
+		        <input type="text" th:field="*{name}" class="form-control" id="nimi" placeholder="Kirjoita nimi">
+		     </div>
+		     <div class="form-group">
+				<label for="kcal">Kcal</label>
+		        <input type="number" th:field="*{kcal}" class="form-control" id="kcal" placeholder="Kirjoita kalorien määrä">
+		     </div>		     
+		     <div class="form-group">
+		      	<label for="kj">Kj</label>
+		        <input type="number" th:field="*{kj}" class="form-control" id="kj" placeholder="Kirjoita kilojoulien määrä">
+		     </div>
+		     <div class="form-group">
+		        <label for="fat">Rasvaa</label>
+		        <input type="number" th:field="*{fat}" class="form-control" id="fat" placeholder="Kirjoita rasvan määrä">
+		     </div>
+		     <div class="form-group">
+		        <label for="carbo">Hiilihydraatti</label>
+		        <input type="number" th:field="*{carbohydrate}" class="form-control" id="carbo" placeholder="Kirjoita hiilihyraattien määrä">
+		     </div>
+		     <div class="form-group">
+		        <label for="protein">Proteiini</label>
+		        <input type="number" th:field="*{protein}" class="form-control" id="protein" placeholder="Kirjoita proteiinien määrä">     
+	        </div>
+	        <div class="form-group form-check">
+		    	<input type="checkbox" class="form-check-input" id="show_saved">
+		    	<label class="form-check-label" for="show_saved">Näytä tallennettu</label>
+		  	</div>
+
+	    </form>
+	    
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}" with:title="Kalenteri">
+
+<head>
+<title>Kirjaukset</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+
+		<h3>
+			<a th:href="@{/add-calendar-item}" class="btn btn-success float-right ml-2">Tee kirjaus</a>
+
+		</h3>
+
+		<div class="row">
+			<div class="col-md-12">
+
+				<table id="myTable" class="table table-condensed" style="border-collapse: collapse;">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Päivämäärä</th>
+							<th>Kcal</th>
+							<th>Kj</th>
+							<th>Rasvaa</th>
+							<th>Proteiinia</th>
+							<th>-</th>
+						</tr>
+					</thead>
+					<tbody th:each="foodcalendar:${foodcalendar}">
+
+						<tr data-toggle="collapse" th:data-target="'#id-' + ${foodcalendar.id}"	class="accordion-toggle">
+							<td th:text="${foodcalendar.id}"></td>
+							<td
+								th:text="${#temporals.format(foodcalendar.add_date,'dd.MM.yyyy HH:mm')}"></td>
+							<td class="text-success" th:text="${#numbers.formatDecimal(foodcalendar.getKcal_total, 1, 2, 'COMMA')}">0.00</td>
+							<td class="text-success" th:text="${#numbers.formatDecimal(foodcalendar.getKj_total, 1, 2, 'COMMA')}">0.00</td>
+							<td class="text-success" th:text="${#numbers.formatDecimal(foodcalendar.getFat_total, 1, 2, 'COMMA')}">0.00</td>
+							<td class="text-success" th:text="${#numbers.formatDecimal(foodcalendar.getProtein_total, 1, 2, 'COMMA')}">0.00</td>
+							<td class="buttons_col">
+								<a th:href="@{/edit-calendar-item/{id}(id=${foodcalendar.id})}"	class="btn btn-success btn-sm very-small-green">E</a>
+								<a th:href="@{/del-calendar-item/{id}(id=${foodcalendar.id})}" class="btn btn-danger btn-sm very-small-red">X</a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="7" class="hiddenRow">
+								<div class="accordian-body collapse" th:id="@{|id-${foodcalendar.id}|}">
+									<div th:if="${not #lists.isEmpty(foodcalendar.calendar_items)}">
+
+										<table id="myTable2" class="table2 table-sm table-hover table-bordered">
+											<thead>
+												<tr>
+													<th>#</th>
+													<th>Nimi</th>
+													<th>Kpl</th>
+													<th>Paino(g)</th>
+													<th>Kcal</th>
+													<th>Kj</th>
+													<th>Rasvaa</th>
+													<th>Proteiinia</th>
+													
+												</tr>
+											</thead>
+											<tbody th:each="fooditem : ${foodcalendar.calendar_items}">
+												<tr th:class="light-green">
+													<td th:class="light-green-td" th:text="${fooditem.id}"></td>
+													<td th:class="light-green-td" th:text="${fooditem.name}"></td>
+													<td th:class="light-green-td" th:text="${#numbers.formatDecimal(fooditem.piece, 1, 2, 'COMMA')}"></td>
+													<td th:class="light-green-td" th:text="${#numbers.formatDecimal(fooditem.gram, 1, 2, 'COMMA')}"></td>
+													<td th:class="light-green-td" th:text="${#numbers.formatDecimal(fooditem.kcal, 1, 2, 'COMMA')}"></td>
+													<td th:class="light-green-td" th:text="${#numbers.formatDecimal(fooditem.kj, 1, 2, 'COMMA')}"></td>
+													<td th:class="light-green-td" th:text="${#numbers.formatDecimal(fooditem.fat, 1, 2, 'COMMA')}"></td>
+													<td th:class="light-green-td" th:text="${#numbers.formatDecimal(fooditem.protein, 1, 2, 'COMMA')}"></td>
+													<td th:class="empty-sub-row">
+<!--														&nbsp;<a th:href="@{/del-calendar-item/{id}(id=${foodcalendar.id})}" class="btn btn-danger btn-sm very-small-red">X</a>-->
+													</td>
+												</tr>
+											</tbody>
+											<tbody>
+												<tr th:class="sub-summary">
+													<td></td>	
+													<td>Yhteensä</td>
+													<td class="text-success" th:text="${#numbers.formatDecimal(foodcalendar.getPiece_total, 1, 2, 'COMMA')}">0.00</td>
+													<td class="text-success" th:text="${#numbers.formatDecimal(foodcalendar.getGram_total, 1, 2, 'COMMA')}">0.00</td>
+													<td class="text-success" th:text="${#numbers.formatDecimal(foodcalendar.getKcal_total, 1, 2, 'COMMA')}">0.00</td>
+													<td class="text-success" th:text="${#numbers.formatDecimal(foodcalendar.getKj_total, 1, 2, 'COMMA')}">0.00</td>
+													<td class="text-success" th:text="${#numbers.formatDecimal(foodcalendar.getFat_total, 1, 2, 'COMMA')}">0.00</td>
+													<td class="text-success" th:text="${#numbers.formatDecimal(foodcalendar.getProtein_total, 1, 2, 'COMMA')}">0.00</td>
+													<td></td>
+												</tr>
+											</tbody>
+										</table>
+									</div> 
+									<div th:if="${#lists.isEmpty(foodcalendar.calendar_items)}">
+										<span>Ei rivejä</span>
+									</div>
+								</div>
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>

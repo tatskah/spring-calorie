@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+	  
+
+
+<!--      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3-->
+<head>
+<title>Kaloripäiväkirja</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<h3>
+			<input type="button" class="btn btn-success" data-toggle="modal"
+				data-target="#addFoodItemModal" value="Lisää ruoka-aines" /> <input
+				class="btn btn-success float-right ml-2" type="submit"
+				onclick="document.getElementById('calendar-form').submit();"
+				value="Tallenna" /> <input class="btn btn-success float-right ml-1"
+				type="button" onclick="history.go(-1)" value="Peruuta" />
+		</h3>
+
+		<form th:id="calendar-form" action="#" th:action="@{/save-old-calendar-item/{id}(id=${calendar_item.id})}" method="post" th:object="${calendar_item}">
+	    	<div class="form-group">
+				<label for="add_date">Päivämäärä</label> 
+				<input type="datetime-local" th:value="${calendar_item.add_date}" th:field="${calendar_item.add_date}" class="form-control" id="add_date" />
+			</div>
+			
+				<table id="myTable3" class="table table-sm table-hover table-bordered">
+					<thead>
+						<tr>
+							<th class="th-sm chk-box-fld">#</th>
+							<th class="th-sm">Nimi</th>
+							<th class="txtSmall">Kpl</th>
+							<th class="txtSmall">Paino(g)</th>
+							<th class="txtSmall">Kcal</th>
+							<th class="txtSmall">Kj</th>
+							<th class="txtSmall">Rasvaa</th>
+							<th class="txtSmall">Hiilihydraatti</th>
+							<th class="txtSmall">Proteiinia</th>
+							<th class="one-button"></th>
+						</tr>
+					</thead>
+				<tbody th:id="myTable3-tbody">
+					<div th:each="fooditem : ${calendar_item.calendar_items}">
+					<tr th:id="id-for-del">
+						<input th:type="hidden" th:name="food_id" th:value="${fooditem.id}" />
+						<td th:text="${fooditem.id}"></td>
+						
+						<td><input th:name="name" type="text" th:value="${fooditem.name}" class="txtDisabled" th:id="nimi" placeholder="Kirjoita nimi"></td>
+						<td><input th:name="piece" th:onclick="this.value=''" th:oninput="'calculateWithPiece(' + ${fooditem.id} + ');'" th:onkeypress='return isNumber();' type="text" th:value="${fooditem.piece}" th:class="txtSmall" th:id="txt_piece_+${fooditem.id}" ></td>
+						<td><input th:name="gram"  th:onclick="this.value=''" th:oninput="'calculateWithGram(' + ${fooditem.id} + ');'" type="text" th:value="${fooditem.gram}" class="txtSmall"  th:id="txt_gram_+${fooditem.id}" ></td>
+						
+						<input type="hidden" th:id="kcal_hidden_+${fooditem.id}" th:value="${fooditem.kcal}">
+						<td><input th:name="kcal" type="text" th:value="${fooditem.kcal}" class="txtSmall"  th:id="txt_kcal_+${fooditem.id}"></td>
+						<input th:type="hidden" th:id="kj_hidden_+${fooditem.id}" th:value="${fooditem.kj}">
+						<td><input th:name="kj" type="text" th:value="${fooditem.kj}" class="txtSmall"  th:id="txt_kj_+${fooditem.id}"></td>
+						<input th:type="hidden" th:id="fat_hidden_+${fooditem.id}" th:value="${fooditem.fat}">
+						<td><input th:name="fat" type="text" th:value="${fooditem.fat}" class="txtSmall"  th:id="txt_fat_+${fooditem.id}" ></td>
+						<input th:type="hidden" th:id="carbo_hidden_+${fooditem.id}" th:value="${fooditem.carbohydrate}">
+						<td><input th:name="carbo" type="text" th:value="${fooditem.carbohydrate}" class="txtSmall"  th:id="txt_carbo_+${fooditem.id}" ></td>
+						<input th:type="hidden" th:id="protein_hidden_+${fooditem.id}" th:value="${fooditem.protein}">
+						<td><input th:name="protein" type="text" th:value="${fooditem.protein}" class="txtSmall"  th:id="txt_protein_+${fooditem.id}" ></td>
+						<td><button onclick="document.getElementById('id-for-del').remove();return false;" class="btn btn-danger btn-sm very-small-red">X</button></td>
+					</tr>
+					</div>
+									
+
+					
+				</tbody>
+
+			</table>
+			
+			
+			<div class="modal fade" id="addFoodItemModal" tabindex="-1" role="dialog" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+			    <div class="modal-dialog" role="document">
+			        <div class="modal-content" th:id="addFoodItemModalCont">
+			            <div class="modal-header">
+			                <h4 class="modal-title" id="editCategoryModalLabel">Lisää ruoka-aines
+			                	<input type="text" class="search-query-modal" id="search-text-input" onkeyup="search();" 
+											 placeholder="Etsi ruoka-aines.." title="Kirjoita nimi">
+			                </h4>
+			                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			                    <span aria-hidden="true">&times;</span>
+			                </button>
+			                
+			            </div>
+			            <div class="modal-body">
+			                <form th:object="${calendar_item}" th:action="@{|/category/*22|}" method="post">
+<!--			                    <div class="form-group">-->
+<!--			                        <label for="catName">Name</label>-->
+<!--			                        <input type="text" class="form-control" id="catName" placeholder="Category Name" name="name" th:value="*{id}">-->
+<!--			                    </div>-->
+												<div th:id="overflow">
+												<table id="myTable" class="table table-sm table-hover table-bordered">
+													<thead>
+														<tr>
+															<th class="th-sm">Id</th>
+															<th class="th-sm">Nimi</th>
+															<th class="th-sm">Kcal</th>
+															<th class="th-sm">Kj</th>
+															<th class="th-sm">Rasvaa</th>
+															<th class="th-sm">Hiilihydraatti</th>
+															<th class="th-sm">Proteiinia</th>
+<!--															<th class="th-sm">-</th>-->
+														</tr>
+													</thead>
+													<tbody>
+													
+														<tr class="table-success" th:onclick="javascript:add_food_item([[${food_items.id}]] , 
+															'[[${food_items.name}]]',
+															[[${#numbers.formatDecimal(food_items.kcal, 1, 2, 'COMMA')}]],
+															[[${#numbers.formatDecimal(food_items.kj, 1, 2, 'COMMA')}]],
+															[[${#numbers.formatDecimal(food_items.fat, 1, 2, 'COMMA')}]],
+															[[${#numbers.formatDecimal(food_items.carbohydrate, 1, 2, 'COMMA')}]],
+															[[${#numbers.formatDecimal(food_items.protein, 1, 2, 'COMMA')}]]);" 
+															th:each="food_items:${food_items}">
+															<td th:text="${food_items.id}"></td>
+															<td th:text="${food_items.name}"></td>
+															<td	th:text="${#numbers.formatDecimal(food_items.kcal, 1, 2, 'COMMA')}"></td>
+															<td	th:text="${#numbers.formatDecimal(food_items.kj, 1, 2, 'COMMA')}"></td>
+															<td	th:text="${#numbers.formatDecimal(food_items.fat, 1, 2, 'COMMA')}"></td>
+															<td	th:text="${#numbers.formatDecimal(food_items.carbohydrate, 1, 2, 'COMMA')}"></td>
+															<td	th:text="${#numbers.formatDecimal(food_items.protein, 1, 2, 'COMMA')}"></td>
+<!--															<td class="buttons_col">-->
+<!--																<a th:href="@{/edit-food-item/{id}(id=${food_items.id})}" class="btn btn-success btn-sm very-small-green">E</a> -->
+<!--																<a th:href="@{/del-food-item/{id}(id=${food_items.id})}" class="btn btn-danger btn-sm very-small-red">X</a>-->
+<!--															</td>-->
+														</tr>
+													</tbody>
+												</table>
+												</div>
+									<div class="modal-footer">			
+<!--			                    		<button type="submit" class="btn btn-success">Tallenna</button>-->
+			                    		<input type="button" class="btn btn-success" data-dismiss="modal" value="Sulje" />
+			                    	</div>
+			                </form>
+			            </div>
+			            
+			        </div>
+			    </div>
+			</div>
+			
+			
+			
+	    </form>
+	    
+	</div>
+
+</body>
+</html>

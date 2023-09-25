@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+
+
+<!--      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3-->
+<head>
+<title>Kirjaudu</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+		<div th:if="${param.error}">
+			<p th:text="${session.error}" th:unless="${session == null}">[...]</p>
+		</div>
+
+		<form th:action="@{/login}" method="post">
+			
+			<div class="login_content">
+				<div th:if="${param.logout}">Olet kirjautunut ulos.</div>
+				<div class="fld">
+		    		<label for="name">Käyttäjä</label>
+			        <input type="text" name="name" class="" id="name" placeholder="Kirjoita käyttäjänimi">
+			    </div>
+			    <div class="fld">
+					<label for="password"> Salasana:</label>
+					<input id="password" type="password" name="password" placeholder="Kirjoita salasana"/>
+				</div>
+				
+				<div>
+					<input type="submit" value="Kirjaudu" />
+				</div>
+
+			</div>
+
+		</form>
+
+
+	</div>
+
+</body>
+</html>

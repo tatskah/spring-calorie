@@ -1,0 +1,68 @@
+	<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Ruoka-ainekset</title>
+
+<meta name="description"
+	content="Source code generated using layoutit.com">
+<meta name="author" content="LayoutIt!">
+
+</head>
+<body>
+	<div layout:fragment="content">
+
+		<div class="row">
+			<div class="col-md-12">
+				<h3>
+					<a th:href="@{/add-food-item}"
+						class="btn btn-success float-right ml-2">Lisää aines</a> <a
+						id="url_str" th:href="@{/food-items-search/}"
+						class="btn btn-success btn-sm search-query">>>></a> <input
+						type="text" class="search-query" id="search-text-input"
+						onkeyup="search();" onchange='make_search_str(this);'
+						placeholder="Etsi ruoka-aines.." title="Kirjoita nimi">
+
+				</h3>
+
+				<table th:id="myTable" class="table table-sm table-hover table-bordered">
+					<thead>
+						<tr>
+							<th class="th-sm">Id</th>
+							<th class="th-sm">Nimi</th>
+							<th class="th-sm">Kcal</th>
+							<th class="th-sm">Kj</th>
+							<th class="th-sm">Rasvaa</th>
+							<th class="th-sm">Hiilihydraatti</th>
+							<th class="th-sm">Proteiinia</th>
+							<th class="th-sm">-</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="table-success" th:each="food_items:${food_items}">
+							<td th:text="${food_items.id}"></td>
+							<td th:text="${food_items.name}"></td>
+							<td	th:text="${#numbers.formatDecimal(food_items.kcal, 1, 2, 'COMMA')}"></td>
+							<td	th:text="${#numbers.formatDecimal(food_items.kj, 1, 2, 'COMMA')}"></td>
+							<td	th:text="${#numbers.formatDecimal(food_items.fat, 1, 2, 'COMMA')}"></td>
+							<td	th:text="${#numbers.formatDecimal(food_items.carbohydrate, 1, 2, 'COMMA')}"></td>
+							<td	th:text="${#numbers.formatDecimal(food_items.protein, 1, 2, 'COMMA')}"></td>
+							<td class="buttons_col">
+								<a th:href="@{/edit-food-item/{id}(id=${food_items.id})}" class="btn btn-success btn-sm very-small-green">E</a> 
+								<a th:href="@{/del-food-item/{id}(id=${food_items.id})}" class="btn btn-danger btn-sm very-small-red">X</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+</html>
