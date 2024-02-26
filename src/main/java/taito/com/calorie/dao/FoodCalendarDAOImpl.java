@@ -60,7 +60,7 @@ public class FoodCalendarDAOImpl implements FoodCalendarDAO {
 	@Override
 	public List<FoodCalendar> list() {
 		Session session = sessionFactory.openSession();
-		List<FoodCalendar> foodCalendarList = session.createQuery("from FoodCalendar fc ORDER BY fc.add_date DESC").setMaxResults(16).list();
+		List<FoodCalendar> foodCalendarList = session.createQuery("from FoodCalendar fc ORDER BY fc.add_date DESC").setMaxResults(50).list();
 		session.close();
 		
 		return foodCalendarList;
@@ -72,7 +72,7 @@ public class FoodCalendarDAOImpl implements FoodCalendarDAO {
 
 		Session session = sessionFactory.openSession();
 
-		List<FoodCalendar> foodCalendarList = session.createQuery("from FoodCalendar fc ORDER BY fc.add_date DESC").setMaxResults(16).list();
+		List<FoodCalendar> foodCalendarList = session.createQuery("from FoodCalendar fc ORDER BY fc.add_date DESC").setMaxResults(50).list();
 
 		for (FoodCalendar item : foodCalendarList) {
 			String sql = "SELECT SUM(fi.kcal), SUM(fi.kj), SUM(fi.fat), SUM(fi.protein), SUM(fi.piece), SUM(fi.gram) FROM FoodCalendar fc INNER JOIN fc.calendar_items AS fi WHERE fc.id="

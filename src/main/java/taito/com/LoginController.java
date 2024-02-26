@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping; 
 import org.springframework.web.bind.annotation.RequestParam; 
 import taito.com.calorie.model.User; 
-
 import taito.com.calorie.security.SecurityUserDetailsService; 
+
+
 @Controller 
 public class LoginController {         
-   @Autowired private SecurityUserDetailsService userDetailsManager; 
+   @Autowired 
+   private SecurityUserDetailsService userDetailsManager; 
    @Autowired
    private PasswordEncoder passwordEncoder; 
    

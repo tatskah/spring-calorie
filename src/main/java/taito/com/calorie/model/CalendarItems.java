@@ -29,9 +29,7 @@ public class CalendarItems extends AbstractModel{
 	private Double fat = 0.0;
 	private Double carbohydrate = 0.0;
 	private Double protein = 0.0;
-	
-//	@JoinColumn(name = "foodcalendar_id", nullable = false)
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "foodcalendar_id", referencedColumnName="id")
 	private FoodCalendar food_calendar;	

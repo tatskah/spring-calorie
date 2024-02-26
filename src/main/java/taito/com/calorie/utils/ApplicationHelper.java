@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.hibernate.type.LocalDateType;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.scheduling.quartz.LocalDataSourceJobStore;
+//import org.springframework.scheduling.quartz.LocalDataSourceJobStore;
 
 public class ApplicationHelper {
 
