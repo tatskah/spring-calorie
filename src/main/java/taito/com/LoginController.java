@@ -23,6 +23,7 @@ public class LoginController {
    @Autowired
    private PasswordEncoder passwordEncoder; 
    
+   
    @GetMapping("/") 
    public String index() { 
       return "index"; 
